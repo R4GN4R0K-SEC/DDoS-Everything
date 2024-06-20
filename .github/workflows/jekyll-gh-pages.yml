@@ -20,11 +20,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
-title: DDoS-Everything
-description: All about DDoS attacks - exploits, botnets, proxies, spoofers, bypass, methods, stressers,...
-remote_theme: pages-themes/hacker@v0.2.0
-
 jobs:
   # Build job
   build:
@@ -36,11 +31,17 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
+
         with:
+          remote_theme: pages-themes/hacker@v0.2.0
           source: ./
           destination: ./_site
+          title: DDoS-Everything
+          description: All about DDoS attacks - exploits, botnets, proxies, spoofers, bypass, methods, stressers,...
+          show_downloads: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+       
 
   # Deployment job
   deploy:
@@ -49,9 +50,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
-  plugins: jekyll-remote-theme
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
-      
+        uses: actions/deploy-pages@v4  
